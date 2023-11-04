@@ -9,8 +9,11 @@ import {
   View,
   ToastAndroid,
 } from 'react-native';
-import {useStore} from '../store/store';
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import {FlatList} from 'react-native';
+import {Dimensions} from 'react-native';
+
+import {useStore} from '../store/store';
 import {
   BORDERRADIUS,
   COLORS,
@@ -20,9 +23,7 @@ import {
 } from '../theme/theme';
 import HeaderBar from '../components/HeaderBar';
 import CustomIcon from '../components/CustomIcon';
-import {FlatList} from 'react-native';
 import CoffeeCard from '../components/CoffeeCard';
-import {Dimensions} from 'react-native';
 
 const getCategoriesFromData = (data: any) => {
   let temp: any = {};
@@ -305,6 +306,8 @@ const HomeScreen = ({navigation}: any) => {
   );
 };
 
+export default HomeScreen;
+
 const styles = StyleSheet.create({
   ScreenContainer: {
     flex: 1,
@@ -377,5 +380,3 @@ const styles = StyleSheet.create({
     color: COLORS.secondaryLightGreyHex,
   },
 });
-
-export default HomeScreen;

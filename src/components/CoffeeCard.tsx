@@ -9,6 +9,7 @@ import {
   View,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+
 import {
   BORDERRADIUS,
   COLORS,
@@ -96,6 +97,8 @@ const CoffeeCard: React.FC<CoffeeCardProps> = ({
   );
 };
 
+export default CoffeeCard;
+
 const styles = StyleSheet.create({
   CardLinearGradientContainer: {
     padding: SPACING.space_15,
@@ -153,4 +156,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CoffeeCard;
+

@@ -1,5 +1,6 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
+
 import {BORDERRADIUS, SPACING} from '../theme/theme';
 import CustomIcon from './CustomIcon';
 
@@ -18,6 +19,8 @@ const BGIcon: React.FC<BGIconProps> = ({name, color, size, BGColor}) => {
   );
 };
 
+export default BGIcon;
+
 const styles = StyleSheet.create({
   IconBG: {
     height: SPACING.space_30,
@@ -27,5 +30,3 @@ const styles = StyleSheet.create({
     borderRadius: BORDERRADIUS.radius_8,
   },
 });
-
-export default BGIcon;

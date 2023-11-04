@@ -1,6 +1,7 @@
-import React, { FC } from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {FC} from 'react';
+import {StyleSheet, View} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+
 import {COLORS, SPACING} from '../theme/theme';
 import CustomIcon from './CustomIcon';
 
