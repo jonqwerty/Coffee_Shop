@@ -7,8 +7,9 @@ const ProfilePic = () => {
   return (
     <View style={styles.ImageContainer}>
       <Image
-        source={require('../assets/app_images/avatar.png')}
+        source={require('../assets/app_images/avatar_1.png')}
         style={styles.Image}
+        resizeMode="contain"
       />
     </View>
   );
@@ -30,5 +31,6 @@ const styles = StyleSheet.create({
   Image: {
     height: SPACING.space_36,
     width: SPACING.space_36,
+    backgroundColor: COLORS.secondaryLightGreyHex,
   },
 });
