@@ -7,7 +7,9 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {FC, useState} from 'react';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {useStore} from '../store/store';
 import {
@@ -19,19 +21,24 @@ import {
 } from '../theme/theme';
 import ImageBackgroundInfo from '../components/ImageBackgroundInfo';
 import PaymentFooter from '../components/PaymentFooter';
+import {RootRouteProps, RootStackParamList} from '../../App';
 
-const DetailsScreen = ({navigation, route}: any) => {
-  const ItemOfIndex = useStore((state: any) =>
-    route.params.type == 'Coffee' ? state.CoffeeList : state.BeanList,
-  )[route.params.index];
+const DetailsScreen: FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const route = useRoute<RootRouteProps<'Details'>>();
 
-  const addToFavoriteList = useStore((state: any) => state.addToFavoriteList);
+  const ItemOfIndex = useStore(state =>
+    route?.params?.type == 'Coffee' ? state.CoffeeList : state.BeanList,
+  )[route?.params?.index!];
+
+  const addToFavoriteList = useStore(state => state.addToFavoriteList);
   const deleteFromFavoriteList = useStore(
-    (state: any) => state.deleteFromFavoriteList,
+    state => state.deleteFromFavoriteList,
   );
 
-  const addToCart = useStore((state: any) => state.addToCart);
-  const calculateCartPrice = useStore((state: any) => state.calculateCartPrice);
+  const addToCart = useStore(state => state.addToCart);
+  const calculateCartPrice = useStore(state => state.calculateCartPrice);
 
   const [price, setPrice] = useState(ItemOfIndex.prices[0]);
   const [fullDesc, setFullDesc] = useState(false);
@@ -65,7 +72,7 @@ const DetailsScreen = ({navigation, route}: any) => {
       prices: [{...price, quantity: 1}],
     });
     calculateCartPrice();
-    navigation.navigate('Cart');
+    navigation.navigate('Cart', {});
   };
 
   return (

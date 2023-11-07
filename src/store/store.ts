@@ -5,8 +5,54 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import CoffeeData from '../data/CoffeeData';
 import BeansData from '../data/BeansData';
+import {ImageProps} from 'react-native';
 
-export const useStore = create(
+export interface IPrices {
+  size: string;
+  price: string;
+  currency: string;
+}
+
+export interface IItem {
+  id: string;
+  name: string;
+  description: string;
+  roasted: string;
+  imagelink_square: ImageProps;
+  imagelink_portrait: ImageProps;
+  ingredients: string;
+  special_ingredient: string;
+  prices: IPrices[];
+  average_rating: number;
+  ratings_count: string;
+  favourite: boolean;
+  type: string;
+  index: number;
+}
+
+export interface IOrderHistory {
+  CartList: IItem[];
+  CartListPrice: string;
+  OrderDate: string;
+}
+
+export interface IStore {
+  CoffeeList: IItem[];
+  BeanList: IItem[];
+  CartPrice: number;
+  FavoritesList: [];
+  CartList: [];
+  OrderHistoryList: IOrderHistory[];
+  addToCart: (cartItem: any) => void;
+  calculateCartPrice: () => void;
+  addToFavoriteList: (type: string, id: string) => void;
+  deleteFromFavoriteList: (type: string, id: string) => void;
+  incrementCartItemQuantity: (id: string, size: string) => void;
+  decrementCartItemQuantity: (id: string, size: string) => void;
+  addToOrderHistoryListFromCart: () => void;
+}
+
+export const useStore = create<IStore>()(
   persist(
     (set, get) => ({
       CoffeeList: CoffeeData,

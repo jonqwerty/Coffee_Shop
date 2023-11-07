@@ -2,21 +2,27 @@ import {ScrollView, StatusBar, StyleSheet, Text, View} from 'react-native';
 import React, {FC} from 'react';
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import {TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import {useStore} from '../store/store';
+import {IItem, useStore} from '../store/store';
 import {COLORS, SPACING} from '../theme/theme';
 import HeaderBar from '../components/HeaderBar';
 import EmptyListAnimation from '../components/EmptyListAnimation';
 import FavoritesItemCard from '../components/FavoritesItemCard';
+import {RootStackParamList} from '../../App';
 
-const FavoritesScreen: FC = ({navigation}: any) => {
-  const FavoritesList = useStore((state: any) => state.FavoritesList);
+const FavoritesScreen: FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const FavoritesList = useStore(state => state.FavoritesList);
 
   const tabBarHeight = useBottomTabBarHeight();
 
-  const addToFavoriteList = useStore((state: any) => state.addToFavoriteList);
+  const addToFavoriteList = useStore(state => state.addToFavoriteList);
   const deleteFromFavoriteList = useStore(
-    (state: any) => state.deleteFromFavoriteList,
+    state => state.deleteFromFavoriteList,
   );
   const ToggleFavourite = (favourite: boolean, type: string, id: string) => {
     favourite ? deleteFromFavoriteList(type, id) : addToFavoriteList(type, id);
@@ -37,7 +43,7 @@ const FavoritesScreen: FC = ({navigation}: any) => {
               <EmptyListAnimation title={'No Favourites'} />
             ) : (
               <View style={styles.ListItemContainer}>
-                {FavoritesList.map((data: any) => (
+                {FavoritesList.map((data: IItem) => (
                   <TouchableOpacity
                     onPress={() => {
                       navigation.push('Details', {

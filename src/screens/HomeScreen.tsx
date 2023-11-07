@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {FC, useRef, useState} from 'react';
 import {
   ScrollView,
   StatusBar,
@@ -12,6 +12,8 @@ import {
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import {FlatList} from 'react-native';
 import {Dimensions} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {useStore} from '../store/store';
 import {
@@ -24,6 +26,7 @@ import {
 import HeaderBar from '../components/HeaderBar';
 import CustomIcon from '../components/CustomIcon';
 import CoffeeCard from '../components/CoffeeCard';
+import {RootStackParamList} from '../../App';
 
 const getCategoriesFromData = (data: any) => {
   let temp: any = {};
@@ -48,11 +51,14 @@ const getCoffeeList = (category: string, data: any) => {
   }
 };
 
-const HomeScreen = ({navigation}: any) => {
-  const CoffeeList = useStore((state: any) => state.CoffeeList);
-  const BeanList = useStore((state: any) => state.BeanList);
-  const addToCart = useStore((state: any) => state.addToCart);
-  const calculateCartPrice = useStore((state: any) => state.calculateCartPrice);
+const HomeScreen: FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const CoffeeList = useStore(state => state.CoffeeList);
+  const BeanList = useStore(state => state.BeanList);
+  const addToCart = useStore(state => state.addToCart);
+  const calculateCartPrice = useStore(state => state.calculateCartPrice);
 
   const [categories, setCategories] = useState(
     getCategoriesFromData(CoffeeList),

@@ -8,9 +8,10 @@ import {
 import React from 'react';
 import {COLORS, FONTFAMILY, FONTSIZE, SPACING} from '../theme/theme';
 import OrderItemCard from './OrderItemCard';
+import {IItem} from '../store/store';
 interface OrderHistoryCardProps {
   navigationHandler: any;
-  CartList: any;
+  CartList: IItem[];
   CartListPrice: string;
   OrderDate: string;
 }

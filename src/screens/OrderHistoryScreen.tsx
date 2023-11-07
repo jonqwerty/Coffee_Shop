@@ -6,9 +6,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {useState} from 'react';
-import {useStore} from '../store/store';
+import React, {FC, useState} from 'react';
+import {IOrderHistory, useStore} from '../store/store';
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
 import {
   BORDERRADIUS,
   COLORS,
@@ -20,13 +23,25 @@ import HeaderBar from '../components/HeaderBar';
 import EmptyListAnimation from '../components/EmptyListAnimation';
 import PopUpAnimation from '../components/PopUpAnimation';
 import OrderHistoryCard from '../components/OrderHistoryCard';
+import {RootStackParamList} from '../../App';
 
-const OrderHistoryScreen = ({navigation}: any) => {
-  const OrderHistoryList = useStore((state: any) => state.OrderHistoryList);
+const OrderHistoryScreen: FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const OrderHistoryList = useStore(state => state.OrderHistoryList);
   const tabBarHeight = useBottomTabBarHeight();
   const [showAnimation, setShowAnimation] = useState(false);
 
-  const navigationHandler = ({index, id, type}: any) => {
+  const navigationHandler = ({
+    index,
+    id,
+    type,
+  }: {
+    index: number;
+    id: string;
+    type: string;
+  }) => {
     navigation.push('Details', {
       index,
       id,
@@ -66,7 +81,7 @@ const OrderHistoryScreen = ({navigation}: any) => {
               <EmptyListAnimation title={'No Order History'} />
             ) : (
               <View style={styles.ListItemContainer}>
-                {OrderHistoryList.map((data: any, index: any) => (
+                {OrderHistoryList.map((data: IOrderHistory, index: number) => (
                   <OrderHistoryCard
                     key={index.toString()}
                     navigationHandler={navigationHandler}

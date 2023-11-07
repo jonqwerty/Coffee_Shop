@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {useNavigation, useRoute} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {
   BORDERRADIUS,
@@ -22,8 +24,15 @@ import PaymentFooter from '../components/PaymentFooter';
 import CustomIcon from '../components/CustomIcon';
 import {useStore} from '../store/store';
 import PopUpAnimation from '../components/PopUpAnimation';
+import {RootRouteProps, RootStackParamList} from '../../App';
 
-const PaymentList = [
+interface IPaymentList {
+  name: string;
+  icon: string;
+  isIcon: boolean;
+}
+
+const PaymentList: IPaymentList[] = [
   {
     name: 'Wallet',
     icon: 'icon',
@@ -46,10 +55,14 @@ const PaymentList = [
   },
 ];
 
-const PaymentScreen: FC = ({navigation, route}: any) => {
-  const calculateCartPrice = useStore((state: any) => state.calculateCartPrice);
+const PaymentScreen: FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+  const route = useRoute<RootRouteProps<'Payment'>>();
+
+  const calculateCartPrice = useStore(state => state.calculateCartPrice);
   const addToOrderHistoryListFromCart = useStore(
-    (state: any) => state.addToOrderHistoryListFromCart,
+    state => state.addToOrderHistoryListFromCart,
   );
 
   const [paymentMode, setPaymentMode] = useState('Credit Card');
@@ -61,7 +74,7 @@ const PaymentScreen: FC = ({navigation, route}: any) => {
     calculateCartPrice();
     setTimeout(() => {
       setShowAnimation(false);
-      navigation.navigate('History');
+      navigation.navigate('History', {});
     }, 2000);
   };
 
@@ -154,7 +167,7 @@ const PaymentScreen: FC = ({navigation, route}: any) => {
               </View>
             </View>
           </TouchableOpacity>
-          {PaymentList.map((data: any) => (
+          {PaymentList.map((data: IPaymentList) => (
             <TouchableOpacity
               key={data.name}
               onPress={() => {
@@ -173,7 +186,7 @@ const PaymentScreen: FC = ({navigation, route}: any) => {
 
       <PaymentFooter
         buttonTitle={`Pay with ${paymentMode}`}
-        price={{price: route.params.amount, currency: '$'}}
+        price={{price: route?.params?.amount?.toString()!, currency: '$'}}
         buttonPressHandler={buttonPressHandler}
       />
     </View>

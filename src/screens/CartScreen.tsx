@@ -2,29 +2,35 @@ import {
   ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import React, {FC} from 'react';
-import {useStore} from '../store/store';
+import {IItem, useStore} from '../store/store';
 import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
 import {COLORS, SPACING} from '../theme/theme';
 import HeaderBar from '../components/HeaderBar';
 import EmptyListAnimation from '../components/EmptyListAnimation';
 import PaymentFooter from '../components/PaymentFooter';
 import CartItem from '../components/CartItem';
+import {RootStackParamList} from '../../App';
 
-const CartScreen: FC = ({navigation, route}: any) => {
-  const CartList = useStore((state: any) => state.CartList);
-  const CartPrice = useStore((state: any) => state.CartPrice);
+const CartScreen: FC = () => {
+  const navigation =
+    useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+
+  const CartList = useStore(state => state.CartList);
+  const CartPrice = useStore(state => state.CartPrice);
   const incrementCartItemQuantity = useStore(
-    (state: any) => state.incrementCartItemQuantity,
+    state => state.incrementCartItemQuantity,
   );
   const decrementCartItemQuantity = useStore(
-    (state: any) => state.decrementCartItemQuantity,
+    state => state.decrementCartItemQuantity,
   );
-  const calculateCartPrice = useStore((state: any) => state.calculateCartPrice);
+  const calculateCartPrice = useStore(state => state.calculateCartPrice);
   const tabBarHeight = useBottomTabBarHeight();
 
   const buttonPressHandler = () => {
@@ -55,7 +61,7 @@ const CartScreen: FC = ({navigation, route}: any) => {
               <EmptyListAnimation title={'Cart is Empty'} />
             ) : (
               <View style={styles.ListItemContainer}>
-                {CartList.map((data: any) => (
+                {CartList.map((data: IItem) => (
                   <TouchableOpacity
                     onPress={() => {
                       navigation.push('Details', {
@@ -89,7 +95,7 @@ const CartScreen: FC = ({navigation, route}: any) => {
             <PaymentFooter
               buttonPressHandler={buttonPressHandler}
               buttonTitle="Pay"
-              price={{price: CartPrice, currency: '$'}}
+              price={{price: CartPrice.toString(), currency: '$'}}
             />
           ) : (
             <></>
